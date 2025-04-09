@@ -1,4 +1,6 @@
 import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StringCalculator {
 
@@ -22,13 +24,22 @@ public class StringCalculator {
         
         // Get the parts of numbers after delimiters
         String[] parts = getNumbersWithDelimiter(numbers);
+        List<Integer> negatives = new ArrayList<>();
         
         // Initializing the sum value
         int sum = 0;
         for (String part : parts) {
             int number = Integer.parseInt(part.trim());
+            if (number < 0) {
+                negatives.add(number);
+            }
             sum += number;
         }
+        
+        if (!negatives.isEmpty()) {
+            throw new IllegalArgumentException("negative numbers not allowed: " + negatives.toString());
+        }
+        
         return sum;
     }
     
@@ -38,6 +49,6 @@ public class StringCalculator {
         System.out.println(calc.add("1,2,3"));         
         System.out.println(calc.add("1\n2,5"));         
         System.out.println(calc.add("//;\n1;2"));       
-        // System.out.println(calc.add("//|\n2|5|7"));
+        System.out.println(calc.add("//|\n2|5|7"));
     }
 }
